@@ -124,11 +124,12 @@ Resonse as follow
 }
 ```
 fields notes:
+```
 _index: the index of the document belongs to
 _type: the type of the document index into
 _id: the precise id if we specified or uuid is not specified
 _source: the full document content we indexed
-
+```
 
 
 
