@@ -7,3 +7,7 @@ What can we do with the REST API?
 * Administer your cluster, node, and index data and metadata
 * Perform CRUD (Create, Read, Update, and Delete) and search operations against your indexes
 * Execute advanced search operations such as paging, sorting, filtering, scripting, aggregations, and many others
+
+
+
+
