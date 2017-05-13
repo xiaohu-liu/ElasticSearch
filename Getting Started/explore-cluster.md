@@ -57,6 +57,24 @@ Which simply means we have no indices yet in the cluster.
 
 
 
+### Create Index
+let's try to create an index named `customer` and then list the indexes hold in the cluster as follow
+```
+PUT /customer?pretty
+GET /_cat/indices?v
+```
+<strong>Note</strong>: use the `PUT` verbs to send the create request and the `pretty` to pertty-print the json response
+
+Response as follow:
+```
+health status index    uuid                   pri rep docs.count docs.deleted store.size  pri.store.size
+yellow open   customer 95SQ4TSUT7mWBT7VNHH67A   5   1          0            0       260b           260
+```
+as we can see from the response text above, the index named `customer` has 5 primary shards and 1 replica per shard, and there is no 
+any document in the index.
+
+you may notice that the index named `customer` has a yello health status tagged to it, as we all know , the yellow health status means that there are some replicas may not be allocated, the reason for that is there is just only one node in the cluster , the one replica can not be allocated until a new node join the cluster , once another node joins the cluster , the one replica will be allocated  onto the new node , the health status will turn to  green
+
 
 
 
