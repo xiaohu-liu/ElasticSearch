@@ -41,3 +41,46 @@ Cluster Name
 * you can define as many indexes as you want
 
 
+### Type
+* diffent `categories` or `partitions` for one index
+* be defined for documents that have a set of common fields
+
+### Document
+* unit information that can be indexed
+* with one index/type , you can store as many documents as you want
+* one document stored phsically in one index , it actually must be indexed and assigned to the type within the index
+
+### Shard
+* a index can be subdivied into mutiple pieces called shards
+* you can define how many shard one index holds when it is created
+* per shard is just a full-functional and an independent index that can be hold on any node in the cluster
+
+Shard is important for 2 primary reasons:
+* split/scale your content volume horizontally
+* distribute and parallelize operations accross shards thus incresing the performance and throughput
+
+
+### Replica
+failover mechanism in case a shard/node somehow goes offline or disappears for whatever reason
+  * make more than one replica for per shard of one index
+Replica is important for 2 primary reasons?
+* never allocate on the same server/node as the primary shard that is copied from
+* scale out/in your search volume/throughput for that search can be executed on all replication in parallel
+
+
+
+### Summary
+* one index consists of multiple shards
+* one index can be replicated 0 or more times
+* if replicated , an index consists of the primary shards and replica shards
+* you can defined with custom the number of shards and replica for per index at the time  the index is created
+* you can dynamically change the number of replicas but you can not change the number of shards after-the-fact
+* by default, Index is allocated 5 primary shards and 1 replica
+
+<strong>Note:</strong> Each elasticSearch shard is a lucene index . and a single lucene index can have Integer.MAX_VALUE documents, you can monitor the shard size using the _cat/shards api.
+
+
+
+
+
+
