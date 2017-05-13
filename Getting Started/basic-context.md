@@ -20,4 +20,11 @@ What is a cluster of elasticsearch?
 
 Cluster Name
 * a cluster is identified and organized by a unique name which by default is `elasticsearch`
+* a node can only be part of a cluster if the node is set up to join the cluster by its name
+* different name and different cluster
+
+<strong>NOTE</strong>: 
+* it is valid and fine that a cluster just have one node
+* you can have multiple cluster each with it's unique name
+
 
