@@ -105,7 +105,7 @@ Response as follow:
 we can see from the response text above , the document was be succefully indexed into `customer` index and `external` type , and it's id
 is just the value `1` specified at index time.
 
-<strong>Note:<strong> It's not neccessary to implicitly create the index we requested , the elasticsearch will automatically create the index if it doest not exist beforehead.
+<strong>Note: It's not neccessary to implicitly create the index we requested , the elasticsearch will automatically create the index if it doest not exist beforehead.</strong>
 
 ### Query the document 
 let's retrive the document that we have indexed before as follow
