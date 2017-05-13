@@ -34,3 +34,10 @@ Cluster Name
 * one node can join the cluster by specifing the cluster name (`elasticsearch` by default)  when to start
 
 
+### Index
+* a collection of documents that have somewhat similar characteristics
+* identified by index name given
+* use the name to refer to the index when performing indexing, search, update, and delete operations against the documents in it
+* you can define as many indexes as you want
+
+
