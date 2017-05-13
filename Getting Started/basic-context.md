@@ -26,4 +26,11 @@ Cluster Name
 * it is valid and fine that a cluster just have one node
 * you can have multiple cluster each with it's unique name
 
+### Node
+* one server of your cluster
+* stores data, participates in cluster indexing and search capabilities
+* one unique name per node in the cluster( default `uuid`)
+* you can define for each node to identify which servers is responsed to which nodes in the cluster
+* one node can join the cluster by specifing the cluster name (`elasticsearch` by default)  when to start
+
 
