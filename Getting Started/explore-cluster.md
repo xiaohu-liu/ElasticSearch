@@ -130,6 +130,25 @@ _type: the type of the document indexed into
 _id: the precise id if we specified or uuid is not specified
 _source: the full document content we indexed
 ```
+### Delete the Index
+Let's delete the document we indexed before and list the documents again as follow:
+```
+DELETE /customer?pretty
+GET /_cat/indices?v
+```
+Response follow:
+```
+health status index uuid pri rep docs.count docs.deleted store.size pri.store.size
+```
+we can see from the reponse text , the document was deleted succssfully
+
+### Summary
+The pattern that how we access the elasticsearch:
+```
+<REST Verb> /<Index>/<Type>/<ID>
+```
+
+
 
 
 
