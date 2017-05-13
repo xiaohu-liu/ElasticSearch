@@ -107,7 +107,27 @@ is just the value `1` specified at index time.
 
 <strong>Note:<strong> It's not neccessary to implicitly create the index we requested , the elasticsearch will automatically create the index if it doest not exist beforehead.
 
-
+### Query the document 
+let's retrive the document that we have indexed before as follow
+```
+GET /customer/external/1?pretty
+```
+Resonse as follow
+```
+{
+  "_index" : "customer",
+  "_type" : "external",
+  "_id" : "1",
+  "_version" : 1,
+  "found" : true,
+  "_source" : { "name": "John Doe" }
+}
+```
+fields notes:
+_index: the index of the document belongs to
+_type: the type of the document index into
+_id: the precise id if we specified or uuid is not specified
+_source: the full document content we indexed
 
 
 
