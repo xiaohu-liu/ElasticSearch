@@ -9,3 +9,7 @@
     * Document
     * Shard 
     * Replica
+    
+###  Near RealTime
+* Eleatisearch is a near real time search platform
+* a slight latency (`normally one second`) between the time you index a document and the time it is get available
