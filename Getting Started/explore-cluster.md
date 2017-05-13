@@ -44,6 +44,18 @@ ip        heap.percent ram.percent cpu load_1m load_5m load_15m node.role master
 <strong>Note:</strong> the word "PB2SGZY" in the response text that is the name of the node in our cluster
 
 
+### List All Indics
+we can get the indics of the cluster as follow:
+```
+GET /_cat/indices?v
+```
+Response as follow:
+```
+health status index uuid pri rep docs.count docs.deleted store.size pri.store.size
+```
+Which simply means we have no indices yet in the cluster.
+
+
 
 
 
