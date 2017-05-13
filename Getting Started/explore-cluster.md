@@ -140,7 +140,7 @@ Response follow:
 ```
 health status index uuid pri rep docs.count docs.deleted store.size pri.store.size
 ```
-we can see from the reponse text , the document was deleted succssfully
+we can see from the reponse text , the index was deleted succssfully
 
 ### Summary
 The pattern that how we access the elasticsearch:
