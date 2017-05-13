@@ -73,11 +73,39 @@ yellow open   customer 95SQ4TSUT7mWBT7VNHH67A   5   1          0            0   
 as we can see from the response text above, the index named `customer` has 5 primary shards and 1 replica per shard, and there is no 
 any document in the index.
 
-you may notice that the index named `customer` has a yello health status tagged to it, as we all know , the yellow health status means that there are some replicas may not be allocated, the reason for that is there is just only one node in the cluster , the one replica can not be allocated until a new node join the cluster , once another node joins the cluster , the one replica will be allocated  onto the new node , the health status will turn to  green
+you may notice that the index named `customer` has a yello health status tagged to it, as we all know , the yellow health status means that there are some replicas may not be allocated, the reason for that is there is just only one node in the cluster , the one replica can not be allocated until a new node join the cluster , once another node joins the cluster , the one replica will be allocated  onto the new one , the health status will turn to  green
 
 
+### Index and Query a document
+In order to index a document you must tell the elasticsearch which type in the index it should go to 
 
+let us index a customer document into `customer` index and `external` type , with one id as 1 as follow:
+```
+PUT /customer/external/1?pretty
+{
+  "name": "John Doe"
+}
+```
+Response as follow:
+```
+{
+  "_index" : "customer",
+  "_type" : "external",
+  "_id" : "1",
+  "_version" : 1,
+  "result" : "created",
+  "_shards" : {
+    "total" : 2,
+    "successful" : 1,
+    "failed" : 0
+  },
+  "created" : true
+}
+```
+we can see from the response text above , the document was be succefully indexed into `customer` index and `external` type , and it's id
+is just the value `1` specified at index time.
 
+<strong>Note:<strong> It's not neccessary to implicitly create the index we requested , the elasticsearch will automatically create the index if it doest not exist beforehead.
 
 
 
