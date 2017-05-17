@@ -188,6 +188,41 @@ GET /bank/_search
  It will still only return one field named _source but within it, only the fields account_number and balance are included.
  
  
+ #### Match Query
+ it can be thought of as a basic fielded search query 
+ Let's take some examples as follow:
+ 
+ 
+this call returns the account numbered 20
+ ```
+ GET /bank/_search
+{
+  "query": { "match": { "account_number": 20 } }
+}
+ ```
+this call returns all accounts containing the term "mill" in the address
+ ```
+ GET /bank/_search
+{
+  "query": { "match": { "address": "mill" } }
+}
+ ```
+this call returns all accounts containing the term "mill" or "lane" in the address
+ ```
+ GET /bank/_search
+{
+  "query": { "match": { "address": "mill lane" } }
+}
+ ```
+this call  is a variant of match (match_phrase) that returns all accounts containing the phrase "mill lane" in the address:
+```
+GET /bank/_search
+{
+  "query": { "match_phrase": { "address": "mill lane" } }
+}
+```
+
+#### Bool(ean) Query
 
 
 
