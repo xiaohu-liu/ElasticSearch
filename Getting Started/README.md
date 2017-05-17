@@ -1,1 +1,1 @@
-# description How To
+## Getting Started for ElasticSearch
