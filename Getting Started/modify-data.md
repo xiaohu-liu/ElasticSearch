@@ -58,7 +58,7 @@ POST /customer/external/1/_update?pretty
   "script" : "ctx._source.age += 5"
 }
 ```
-<strong>Note:</strong> the `ctx._source` is just the  source field of current document to update
-<strong>Note:</strong> Now, updates can only be performed on a single document at a time, and in futuer , ElasticSearch will provide the ability to update multiple document given a query condition
+* <strong>Note:</strong> the `ctx._source` is just the  source field of current document to update
+* <strong>Note:</strong> Now, updates can only be performed on a single document at a time, and in futuer , ElasticSearch will provide the ability to update multiple document given a query condition
 
 
