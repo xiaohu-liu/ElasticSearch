@@ -108,8 +108,6 @@ type=rpm-md
 * install Elasticsearch with one of the following commands:
  ```
 sudo yum install elasticsearch 
-sudo dnf install elasticsearch 
-sudo zypper install elasticsearch 
  ```
 ### Install offline
 the RPM for Elasticsearch v5.4.0 can be downloaded from the website and installed as follows:
