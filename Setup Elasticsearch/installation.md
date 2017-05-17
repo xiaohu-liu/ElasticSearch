@@ -83,3 +83,40 @@ Any settings that can be specified in the config file can also be specified on t
 ### Directory Layout of ES
 [Directory Layout](https://github.com/xiaohu-liu/ElasticSearch/edit/master/Setup%20Elasticsearch/es_directory_layout.png)
 
+
+
+## Install with RPM
+### Install Online
+import the es PGP Key
+* Download and install the public signing key:
+```
+rpm --import https://artifacts.elastic.co/GPG-KEY-elasticsearch
+```
+
+install the es yum repository
+* Create a file called elasticsearch.repo in the /etc/yum.repos.d/ directory for RedHat based distributions
+```
+[elasticsearch-5.x]
+name=Elasticsearch repository for 5.x packages
+baseurl=https://artifacts.elastic.co/packages/5.x/yum
+gpgcheck=1
+gpgkey=https://artifacts.elastic.co/GPG-KEY-elasticsearch
+enabled=1
+autorefresh=1
+type=rpm-md
+```
+* install Elasticsearch with one of the following commands:
+ ```
+sudo yum install elasticsearch 
+sudo dnf install elasticsearch 
+sudo zypper install elasticsearch 
+ ```
+### Install offline
+the RPM for Elasticsearch v5.4.0 can be downloaded from the website and installed as follows:
+```
+wget https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-5.4.0.rpm
+sha1sum elasticsearch-5.4.0.rpm 
+sudo rpm --install elasticsearch-5.4.0.rpm
+```
+ 
+ 
