@@ -223,6 +223,78 @@ GET /bank/_search
 ```
 
 #### Bool(ean) Query
+* must
 
+this call returns all accounts containing "mill" and "lane" in the address
+```
+GET /bank/_search
+{
+  "query": {
+    "bool": {
+      "must": [
+        { "match": { "address": "mill" } },
+        { "match": { "address": "lane" } }
+      ]
+    }
+  }
+}
+```
+<strong>Note: </strong>the bool must clause specifies all the queries that must be true for a document to be considered a match
+
+* should
+
+this call returns all accounts containing "mill" or "lane" in the address
+```
+GET /bank/_search
+{
+  "query": {
+    "bool": {
+      "should": [
+        { "match": { "address": "mill" } },
+        { "match": { "address": "lane" } }
+      ]
+    }
+  }
+```
+<strong>Note: </strong>the bool should clause specifies a list of queries either of which must be true for a document to be considered a match
+
+
+* must_not
+this call returns all accounts that contain neither "mill" nor "lane" in the address
+```
+GET /bank/_search
+{
+  "query": {
+    "bool": {
+      "must_not": [
+        { "match": { "address": "mill" } },
+        { "match": { "address": "lane" } }
+      ]
+    }
+  }
+}
+```
+<strong>Note: </strong> the bool must_not clause specifies a list of queries none of which must be true for a document to be considered a match
+
+* mixed 
+
+We can combine must, should, and must_not clauses simultaneously inside a bool query, Furthermore, we can compose bool queries inside any of these bool clauses to mimic any complex multi-level boolean logic.
+
+this call returns all accounts of anybody who is 40 years old but doesn’t live in ID(aho)
+```
+GET /bank/_search
+{
+  "query": {
+    "bool": {
+      "must": [
+        { "match": { "age": "40" } }
+      ],
+      "must_not": [
+        { "match": { "state": "ID" } }
+      ]
+    }
+  }
+}
+```
 
 
