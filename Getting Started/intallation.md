@@ -25,5 +25,5 @@ cd elasticsearch-5.5.0/bin && ./elasticsearch
 ./elasticsearch -Ecluster.name=my_cluster_name -Enode.name=my_node_name
 ```
 
-by default , the es provide access to it's api from port 9092 , and the port is configurable if neccesary.
+by default , the es provide access to it's api from port 9200 , and the port is configurable if neccesary.
    
