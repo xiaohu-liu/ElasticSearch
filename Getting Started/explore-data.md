@@ -297,4 +297,32 @@ GET /bank/_search
 }
 ```
 
+### Filter Query
+the _score field within the search result is just a relative measure of how well the documnet matches the search query that we specfied,the high socre and the more revelant the document is , the low score and the less revelant the document is
 
+<strong>Note: </strong> the score is not neccessary to produce, in particular when they used for "filtering" the document set. in this case , ElasticSearch will automatically optimizes query execution in order not to compute useless score.
+
+## Range filter
+it is generally used for numeric or date filtering.
+
+let's take the example as follow:
+
+ we want to find accounts with a balance that is greater than or equal to 20000 and less than or equal to 30000
+```
+GET /bank/_search
+{
+  "query": {
+    "bool": {
+      "must": { "match_all": {} },
+      "filter": {
+        "range": {
+          "balance": {
+            "gte": 20000,
+            "lte": 30000
+          }
+        }
+      }
+    }
+  }
+}
+```
