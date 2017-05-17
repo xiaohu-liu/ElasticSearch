@@ -89,6 +89,6 @@ POST /customer/external/_bulk?pretty
 {"doc": { "name": "John Doe becomes Jane Doe" } }
 {"delete":{"_id":"2"}}
 ```
-the example above updates 2 document with different id in one bulk operation.>s
+the example above updates 2 document with different id in one bulk operation.>
 <strong>Note:</strong> The Bulk API does not fail due to failures in one of the actions.
 
