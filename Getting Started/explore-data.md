@@ -114,7 +114,7 @@ GET /bank/_search?q=*&sort=account_number:asc&pretty
 ```
 the call above to return all the document in the blank index.
 * q=* parameter instructs Elasticsearch to match all documents in the index
-* sort=account_number:asc parameter indicates to sort the results using the account_number field of each document in an ascending order\
+* sort=account_number:asc parameter indicates to sort the results using the account_number field of each document in an ascending order
 * pretty parameter to specify the output in json format
 
 the response text as follow:
