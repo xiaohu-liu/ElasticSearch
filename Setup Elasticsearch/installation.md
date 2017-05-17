@@ -105,7 +105,7 @@ enabled=1
 autorefresh=1
 type=rpm-md
 ```
-* install Elasticsearch with one of the following commands:
+* install Elasticsearch with the following commands:
  ```
 sudo yum install elasticsearch 
  ```
