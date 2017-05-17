@@ -79,4 +79,14 @@ A node can only join a cluster when it shares its cluster.name with all the othe
 ```
 node.name: ${HOSTNAME}
 ```
-### 
+### bootstrap.memory_lock
+* false
+
+### network.host
+* hostname
+
+### discovery.zen.ping.unicast.hosts
+* the hostname list of the node in the cluster
+
+### discovery.zen.minimum_master_nodes
+* (master_eligible_nodes / 2) + 1
