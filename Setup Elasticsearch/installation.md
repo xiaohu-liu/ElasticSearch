@@ -80,4 +80,6 @@ Any settings that can be specified in the config file can also be specified on t
 ```
 <strong>Note: </strong> Typically, any cluster-wide settings (like cluster.name) should be added to the elasticsearch.yml config file, while any node-specific settings such as node.name could be specified on the command line.
 
+### Directory Layout of ES
+[Directory Layout](https://github.com/xiaohu-liu/ElasticSearch/edit/master/Setup%20Elasticsearch/es_directory_layout.png)
 
