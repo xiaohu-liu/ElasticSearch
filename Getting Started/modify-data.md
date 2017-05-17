@@ -70,5 +70,25 @@ DELETE /customer/external/2?pretty
 ```
 It is worth noting that it is much more efficient to delete a whole index instead of deleting all documents with the Delete By Query API.
 
+### Batch Process
+<strong>_bulk API.</strong>
+Elasticsearch is able to index , update, delete the document and provides the ability to perform any of them in batch, the mechanism is 
+fast and efficient with fewer network roudtrips.
+```
+POST /customer/external/_bulk?pretty
+{"index":{"_id":"1"}}
+{"name": "John Doe" }
+{"index":{"_id":"2"}}
+{"name": "Jane Doe" }
+```
+the example above indexes 2 documents in one bulk operation.
 
+```
+POST /customer/external/_bulk?pretty
+{"update":{"_id":"1"}}
+{"doc": { "name": "John Doe becomes Jane Doe" } }
+{"delete":{"_id":"2"}}
+```
+the example above updates 2 document with different id in one bulk operation.>s
+<strong>Note:</strong> The Bulk API does not fail due to failures in one of the actions.
 
