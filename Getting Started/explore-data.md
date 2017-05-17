@@ -29,8 +29,8 @@ yellow open   bank  l7sSYV2cQXmu6_4rJWVIww   5   1       1000            0    12
 ```
 
 Which means that we just successfully bulk indexed 1000 documents into the bank index (under the account type).
+### Query API
 
-###　Query API
 2 ways to start the query: one is by sending search parameters through the `REST request URI` and the other by sending them through the `REST request body`
 
 REST request URI
