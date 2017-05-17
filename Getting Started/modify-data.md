@@ -62,3 +62,13 @@ POST /customer/external/1/_update?pretty
 * <strong>Note:</strong> Now, updates can only be performed on a single document at a time, and in future , ElasticSearch will provide the ability to update multiple document given a query condition
 
 
+### Delete the document
+Deleting a document is fairly straightforward
+the example as follow shows how to delete the document with the id of 2
+```
+DELETE /customer/external/2?pretty
+```
+It is worth noting that it is much more efficient to delete a whole index instead of deleting all documents with the Delete By Query API.
+
+
+
