@@ -172,4 +172,22 @@ GET /bank/_search
 
 <strong>Note:</strong> ElasticSearch won't hold the status of the pre-request and treat every request fairly.
 
+### Excecuting Search
+ Let’s dig in some more into the Query DSL, by default, the full documents will return as part of all searches
+ 
+ How show we do if we just want some fields but not the entire source document?
+ 
+ The example as follow shows what we should step for that.
+ ```
+ GET /bank/_search
+{
+  "query": { "match_all": {} },
+  "_source": ["account_number", "balance"]
+}
+ ```
+ It will still only return one field named _source but within it, only the fields account_number and balance are included.
+ 
+ 
+
+
 
