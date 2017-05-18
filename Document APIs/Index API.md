@@ -80,6 +80,49 @@ Here is an example of using the `op_type` parameter:
 ```
 as we can see from the response above, the create operation fails for the `version_confilict_engine_exception`
 
+there is another option to specify the `create` is to use the following uri:
+```
+[xiaohu-liu@cdh1 elasticsearch-5.4.0]$ curl -XPUT "http://localhost:9200/twitter/tweet/2/_create?pretty=true"  --data '{"user" : "xiaohu-liu","post_date" : "2009-11-15T14:12:12", "message" : "trying out Elasticsearch"}'
+{
+  "error" : {
+    "root_cause" : [
+      {
+        "type" : "version_conflict_engine_exception",
+        "reason" : "[tweet][2]: version conflict, document already exists (current version [1])",
+        "index_uuid" : "lHkiUFEmTrKYugulAenzgA",
+        "shard" : "2",
+        "index" : "twitter"
+      }
+    ],
+    "type" : "version_conflict_engine_exception",
+    "reason" : "[tweet][2]: version conflict, document already exists (current version [1])",
+    "index_uuid" : "lHkiUFEmTrKYugulAenzgA",
+    "shard" : "2",
+    "index" : "twitter"
+  },
+  "status" : 409
+}
+```
+the same error occurs as the precious call.
+
+## Atomatic ID Generation
+the index operation can be exectuted withoud specifying the id , in such a case , an id will be generated automatically, in addition, the `op_type` will automatically be set to `create`, let's take the example below to indicate that:
+```
+[xiaohu-liu@cdh1 elasticsearch-5.4.0]$ curl -XPOST "http://localhost:9200/twitter/tweet?pretty=true"  --data '{"user" : "xiaohu-liu","post_date" : "2009-11-15T14:12:12", "message" : "trying out Elasticsearch"}'
+{
+  "_index" : "twitter",
+  "_type" : "tweet",
+  "_id" : "AVwaomY7B3_RrgjQvGlK",
+  "_version" : 1,
+  "result" : "created",
+  "_shards" : {
+    "total" : 2,
+    "successful" : 1,
+    "failed" : 0
+  },
+  "created" : true
+}
+```
 
 
 
