@@ -50,3 +50,37 @@ failed - An array that contains replication related errors in the case an index 
      * + meaning allowed(e.i. +aaa*,+ccc*,+*)
      * - meaning disallowed(e.i. -aaa*, -*)
      
+     
+## Operation Type
+The index operation also accepts an `op_type` that can be use to force a `create` operation, allowing for "put-if-absent" behavior.
+when `create` is used, the index operation will fail if a document by that id already exists in the index.
+
+Here is an example of using the `op_type` parameter:
+```
+[xiaohu-liu@cdh1 elasticsearch-5.4.0]$ curl -XPUT "http://localhost:9200/twitter/tweet/2?pretty=true&op_type=create"  --data '{"user" : "xiaohu-liu","post_date" : "2009-11-15T14:12:12", "message" : "trying out Elasticsearch"}'
+{
+  "error" : {
+    "root_cause" : [
+      {
+        "type" : "version_conflict_engine_exception",
+        "reason" : "[tweet][2]: version conflict, document already exists (current version [1])",
+        "index_uuid" : "lHkiUFEmTrKYugulAenzgA",
+        "shard" : "2",
+        "index" : "twitter"
+      }
+    ],
+    "type" : "version_conflict_engine_exception",
+    "reason" : "[tweet][2]: version conflict, document already exists (current version [1])",
+    "index_uuid" : "lHkiUFEmTrKYugulAenzgA",
+    "shard" : "2",
+    "index" : "twitter"
+  },
+  "status" : 409
+}
+```
+as we can see from the response above, the create operation fails for the `version_confilict_engine_exception`
+
+
+
+
+     
