@@ -187,6 +187,36 @@ To improve the resiliency of writes to the system. indexing operations can be co
 
 It is important to note that this setting greatly reduces the changes of the write operation not writing to the requisite number of shard copies, but it dose not compeletly eliminate the possibility, since the check occurs before the write operation commences.
 
+## Refresg
+Control when the changes made by this request are visible to search.
 
+## Noop updates
+when updating a document using the index api a new version of the document is always create even if the document has not changed.
 
-     
+you can use the `_update` api with `detect_noop` set to true to disabled it.
+let's take the example here to demonstrate that:
+```
+curl -XPOST "http://localhost:9200/twitter/tweet/2/_update?pretty=true"  --data '{"doc":{"user" : "xiaohu-liu","post_date" : "2009-11-15T14:12:12", "message" : "trying out Elasticsearch"},"detect_noop":"false"}'
+{
+  "_index" : "twitter",
+  "_type" : "tweet",
+  "_id" : "2",
+  "_version" : 7,
+  "result" : "updated",
+  "_shards" : {
+    "total" : 2,
+    "successful" : 1,
+    "failed" : 0
+  }
+}
+```
+## Timeout 
+The primary shard assigned to perform the index operation might not be not available whent the index operation is executed. Some reasons for this might be that the primary shard is currently recovering from a gateway or undergong relocation. By default, the index operation will wait on the primary shard to become available for up to 1 min before failing and responding with an error. The `timeout` parameter can be used to explicitly specify how long it waits. Here is an example of setting it to 5 min:
+```
+PUT twitter/tweet/1?timeout=5m
+{
+    "user" : "kimchy",
+    "post_date" : "2009-11-15T14:12:12",
+    "message" : "trying out Elasticsearch"
+}
+```
