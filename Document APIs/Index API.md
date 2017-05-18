@@ -45,4 +45,7 @@ failed - An array that contains replication related errors in the case an index 
 * index.mapper.dynamic(automatic mappping creation)
      * disabled it when to set false
      * enable it when to set true
+* white/black list
+     * + meaning allowed(e.i. +aaa*,+ccc*,+*)
+     * - meaning disallowed(e.i. -aaa*, -*)
      
