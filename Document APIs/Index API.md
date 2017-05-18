@@ -124,6 +124,26 @@ the index operation can be exectuted withoud specifying the id , in such a case 
 }
 ```
 
-
+## Routing
+by default, shard placement is controlled by using a hash of the document's id value. for more implicit control, the vlaue fed into the hash function used by the router can be directly specified on a pre-operation basis using the `routing` parameter, for example:
+```
+[xiaohu-liu@cdh1 elasticsearch-5.4.0]$ curl -XPOST "http://localhost:9200/twitter/tweet?pretty=true&routing=xiaohu-liu"  --data '{"user" : "xiaohu-liu","post_date" : "2009-11-15T14:12:12", "message" : "trying out Elasticsearch"}'
+{
+  "_index" : "twitter",
+  "_type" : "tweet",
+  "_id" : "AVwapZvHB3_RrgjQvGlL",
+  "_version" : 1,
+  "result" : "created",
+  "_shards" : {
+    "total" : 2,
+    "successful" : 1,
+    "failed" : 0
+  },
+  "created" : true
+}
+```
+ in the example above, the document is routed to a shard based on the `routing` parameter provided:`xiaohu-liu`
+ * if the `_routing` mapping is defined and se to `required`, the index operation will fail if no routing parameter value is provided or extracted
+ 
 
      
