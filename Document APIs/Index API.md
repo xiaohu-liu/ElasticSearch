@@ -176,6 +176,16 @@ when indexing a child document, the routing value is automatically set to be the
 ## Distributed
 The index operation is directed to the primary shard based on its route, and performed on the actual node containing this shard, After the primary shard completes the operation, if needed, the update is distributed to applicable replicas.
 
+## Wait For Active Shards
+To improve the resiliency of writes to the system. indexing operations can be configure to wait for a certain number of active shard copies before proceeding with the operation. if the requisite number of active shard copies are not available, then the write operation will wait and retry until either the requisite shard copies have started or a timeout occurs.
+
+* By default, write operations only wait for the primary shards to be active before processing(i.e. wait_for_active_shards = 1).
+* the setting can be dynamically overriden by setting `index.write.wait_for_active_shards`
+* to alter this hebavior per operation, the `wait_for_active_shards` request parameter can be used.
+* all or any positive integer up to the total number of configured copies per shard in the index (number_of_replica + 1)
+* a negative or a number greater than the number of shard copies will throw an error
+
+It is important to note that this setting greatly reduces the changes of the write operation not writing to the requisite number of shard copies, but it dose not compeletly eliminate the possibility, since the check occurs before the write operation commences.
 
 
 
