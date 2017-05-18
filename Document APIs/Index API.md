@@ -3,6 +3,7 @@ adds or updates document to a specified index, making it searchable
 let's take an example as follows:
 ```
 PUT twitter/tweet/1
+curl -XPUT http://localhost:9200/twitter/tweet/1?pretty --data '{"user" : "kimchy","post_date" : "2009-11-15T14:12:12", "message" : "trying out Elasticsearch"}'
 {
     "user" : "kimchy",
     "post_date" : "2009-11-15T14:12:12",
@@ -12,17 +13,17 @@ PUT twitter/tweet/1
 and the response text as follows:
 ```
 {
-    "_shards" : {
-        "total" : 2,
-        "failed" : 0,
-        "successful" : 2
-    },
-    "_index" : "twitter",
-    "_type" : "tweet",
-    "_id" : "1",
-    "_version" : 1,
-    "created" : true,
-    "result" : created
+  "_index" : "twitter",
+  "_type" : "tweet",
+  "_id" : "2",
+  "_version" : 1,
+  "result" : "created",
+  "_shards" : {
+    "total" : 2,
+    "successful" : 1,
+    "failed" : 0
+  },
+  "created" : true
 }
 ```
 
