@@ -143,6 +143,7 @@ by default, shard placement is controlled by using a hash of the document's id v
 }
 ```
  in the example above, the document is routed to a shard based on the `routing` parameter provided:`xiaohu-liu`
+ * `_routing` value can be extracted from the document itself when setting up explicit mapping and the `_routing` field can be optionally used to direct the index operation
  * if the `_routing` mapping is defined and se to `required`, the index operation will fail if no routing parameter value is provided or extracted
  
 
