@@ -137,3 +137,111 @@ so , we try to retreve it:
 ```
 the `counter` field is just simply ignored.
 
+## Generated Fields
+if no refresh occured between indexiing and refresh, GET API will access the transaction log to fetch the document. however , some fields are generated only when indexing . if you try to access a field that is only generated when indexing , you will get an exception
+you can choose to ignore field that are generated if the transaction log is accessed by settting 
+`ignore_errors_on_generated_fields=true`
+```
+[xiaohu-liu@cdh1 data-tmp]$ curl -X POST "http://localhost:9200/twitter/tweet?pretty=true" -d '{"user" : "xiaohu-liu","post_date" : "2009-11-15T14:12:12"}'
+{
+  "_index" : "twitter",
+  "_type" : "tweet",
+  "_id" : "AVweZq30B3_RrgjQvGlU",
+  "_version" : 1,
+  "result" : "created",
+  "_shards" : {
+    "total" : 2,
+    "successful" : 1,
+    "failed" : 0
+  },
+  "created" : true
+}
+```
+
+
+## Getting the _source directly
+use the `/{index}/{type}/{id}/_source` endpoint to get just the `_source` field of the document, without any additional content around it. for example as follows:
+```
+[xiaohu-liu@cdh1 data-tmp]$ curl -X GET "http://localhost:9200/twitter/tweet/AVweZq30B3_RrgjQvGlU/_source?pretty=true"
+{
+  "user" : "xiaohu-liu",
+  "post_date" : "2009-11-15T14:12:12"
+}
+```
+at the same time , you can also use source filtering parameters to control which parts of the `_source` will be returned:
+```
+[xiaohu-liu@cdh1 data-tmp]$ curl -X GET "http://localhost:9200/twitter/tweet/AVweZq30B3_RrgjQvGlU/_source?pretty=true&_source_include=*user"
+{
+  "user" : "xiaohu-liu"
+}
+```
+<strong>Note: </strong> there is also a `HEAD`  variant for the _source endpoint to effeciently test for document _source existence.
+```
+[xiaohu-liu@cdh1 data-tmp]$ curl -i  -X HEAD "http://localhost:9200/twitter/tweet/AVweZq30B3_RrgjQvGlU/_source?pretty=true"
+HTTP/1.1 200 OK
+content-type: application/json; charset=UTF-8
+content-length: 67
+```
+
+## Routing
+When indexing using the ability to control the routing , in order to get the document , the routing value should also be provided . 
+for example as follows:
+```
+[xiaohu-liu@cdh1 data-tmp]$ curl -X POST "http://localhost:9200/twitter/tweet?routing=xiaohu-liu1&pretty=true" -d '{"user" : "xiaohu-liu1","post_date" : "2009-11-15T14:12:12"}'
+{
+  "_index" : "twitter",
+  "_type" : "tweet",
+  "_id" : "AVwedqYHB3_RrgjQvGlX",
+  "_version" : 1,
+  "result" : "created",
+  "_shards" : {
+    "total" : 2,
+    "successful" : 1,
+    "failed" : 0
+  },
+  "created" : true
+}
+```
+let's use GET API to fetch it:
+
+* with routing parameter setted
+```
+[xiaohu-liu@cdh1 data-tmp]$ curl -X GET "http://localhost:9200/twitter/tweet/AVwedqYHB3_RrgjQvGlX?routing=xiaohu-liu1&pretty=true"
+{
+  "_index" : "twitter",
+  "_type" : "tweet",
+  "_id" : "AVwedqYHB3_RrgjQvGlX",
+  "_version" : 1,
+  "_routing" : "xiaohu-liu1",
+  "found" : true,
+  "_source" : {
+    "user" : "xiaohu-liu1",
+    "post_date" : "2009-11-15T14:12:12"
+  }
+}
+```
+* without routing parameter setted
+```
+[xiaohu-liu@cdh1 data-tmp]$ curl -X GET "http://localhost:9200/twitter/tweet/AVwedqYHB3_RrgjQvGlX?pretty=true"
+{
+  "_index" : "twitter",
+  "_type" : "tweet",
+  "_id" : "AVwedqYHB3_RrgjQvGlX",
+  "found" : false
+}
+```
+
+## Preference
+By default, the operation is randomized between the shard replicas, and control a `preference` of which shard replicas to execute the get request. the optional values of the `preference` are `_primary`,`_local`,`Custom(string) value`, let's dig into the three value.
+* _primary
+   the operation will go and execute only on the primary shards.
+* _local
+   the operation will prefer to be executed on a local allocated shard if possible.
+* Custom(string) value
+   it can be something like the web session id or the user's name , since it will be used to guarantee the same shards will be used for the same custom value.
+   
+   
+
+
+
+
