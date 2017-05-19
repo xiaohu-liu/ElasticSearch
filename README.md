@@ -1,2 +1,2 @@
 # ElasticSearch
-# The instruction about elasticSearch
+# The instruction about ElasticSearch
