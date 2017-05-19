@@ -449,6 +449,21 @@ instead of sending a partial doc plus an `upsert` doc, setting `doc_as_upsert` t
 }
 ```
 
-
-
+## Parameters
+* retry_on_conflict
+  in between the get and indexing phases of the update, it's possible that another process might have already updated the same  document, By default, the update will fail with a version conflict exception. the parameter contaols how many times to retry the update before finally throwing an exception.
+* routing
+  routing is used to route the update operation to the right shard and set the routing for the update request if the document being updated doest not exist. can't be used to update the routing of an existing document
+* parent
+the same to `routing`, and can not be used to update the `parent` of an existing document. if an alias index routing is specified then it overrides the parent routing and it is used to route the request.
+* timeout
+timeout waiting for the shard to be available
+* wait_for_active_shards
+the number of shard copies required to be active before actual processing with the update operation.
+* refresh
+control when the changes made by this request are visible to search.
+* _source 
+allow to control if and how the updated source should be returned in the resposes.by default, the updated source is not returned.
+* version & version_type
+support internally to make sure the document does not change during the update, and you can use the version parameter to specify that the document should only be updated if its version matches the one specfied.
 
