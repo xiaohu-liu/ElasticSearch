@@ -63,5 +63,79 @@ the parameter of cluster health api:
 * `local`  If true returns the local node information and does not provide the state from master node. Default: false.
 
 
-
+there is an example to show get the cluster health at the `shard` level:
+```
+[xiaohu-liu@cdh1 ~]$ curl -XGET 'http://localhost:9200/_cluster/health/bank?level=shards&pretty'
+{
+  "cluster_name" : "xiaohu-liu",
+  "status" : "yellow",
+  "timed_out" : false,
+  "number_of_nodes" : 1,
+  "number_of_data_nodes" : 1,
+  "active_primary_shards" : 5,
+  "active_shards" : 5,
+  "relocating_shards" : 0,
+  "initializing_shards" : 0,
+  "unassigned_shards" : 5,
+  "delayed_unassigned_shards" : 0,
+  "number_of_pending_tasks" : 0,
+  "number_of_in_flight_fetch" : 0,
+  "task_max_waiting_in_queue_millis" : 0,
+  "active_shards_percent_as_number" : 50.0,
+  "indices" : {
+    "bank" : {
+      "status" : "yellow",
+      "number_of_shards" : 5,
+      "number_of_replicas" : 1,
+      "active_primary_shards" : 5,
+      "active_shards" : 5,
+      "relocating_shards" : 0,
+      "initializing_shards" : 0,
+      "unassigned_shards" : 5,
+      "shards" : {
+        "0" : {
+          "status" : "yellow",
+          "primary_active" : true,
+          "active_shards" : 1,
+          "relocating_shards" : 0,
+          "initializing_shards" : 0,
+          "unassigned_shards" : 1
+        },
+        "1" : {
+          "status" : "yellow",
+          "primary_active" : true,
+          "active_shards" : 1,
+          "relocating_shards" : 0,
+          "initializing_shards" : 0,
+          "unassigned_shards" : 1
+        },
+        "2" : {
+          "status" : "yellow",
+          "primary_active" : true,
+          "active_shards" : 1,
+          "relocating_shards" : 0,
+          "initializing_shards" : 0,
+          "unassigned_shards" : 1
+        },
+        "3" : {
+          "status" : "yellow",
+          "primary_active" : true,
+          "active_shards" : 1,
+          "relocating_shards" : 0,
+          "initializing_shards" : 0,
+          "unassigned_shards" : 1
+        },
+        "4" : {
+          "status" : "yellow",
+          "primary_active" : true,
+          "active_shards" : 1,
+          "relocating_shards" : 0,
+          "initializing_shards" : 0,
+          "unassigned_shards" : 1
+        }
+      }
+    }
+  }
+}
+```
   
