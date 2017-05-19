@@ -240,7 +240,19 @@ By default, the operation is randomized between the shard replicas, and control 
 * Custom(string) value
    it can be something like the web session id or the user's name , since it will be used to guarantee the same shards will be used for the same custom value.
    
-   
+
+## Refresh
+The `refresh` parameter can be set to `ture` in order to refresh the relevant shard before the get operation and make it searchable.
+there should be careful thought and vertification that this dose not cause a heavy load on the system before actual setting it to true.
+
+
+## Distributed
+The get operation get hashed into a specific shard id. it then gets redirected to one of the replicas within that shard id and return the result. the shard id group consists of the primary shard and its replicas, this means that the more replicas we will have, the better GET scaling we will have.
+
+## Version support
+You can use the version parameter to retrieve the document only if its current value is equal to the specified one.
+
+Internally, Es has marked the old document as deleted and added an entirely new document. The old version of the document does not disappear immediately, although you won't be able to access it. Es cleans up deleted documents in the background as you continue to index more data.
 
 
 
