@@ -18,7 +18,7 @@ Here is an example as follows to show the api:
 }
 ```
 
-##　Versioning
+## Versioning
 Each document indexed is versioned. When deleting a document, the `version` can be specified to make sure the revelant document we are trying to delete is actually being deleted and it has not changed in the meantime. Every write operation included delete on a document causes its version to be incremented.
 
 ## Routing 
