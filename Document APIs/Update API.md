@@ -221,7 +221,233 @@ And we can even change the type of operation that is executed, This exmaple as f
   }
 }
 ```
- 
+
+## Updates with a partial document
+the update api support passing a partial document , which will be merged into the existing document.
+```
+[xiaohu-liu@cdh1 data-tmp]$ curl -X POST 'http://localhost:9200/twitter/tweet/AVwfVTFfB3_RrgjQvGmE/_update?pretty' -d '{"doc":{"gender":"male"}}'
+{
+  "_index" : "twitter",
+  "_type" : "tweet",
+  "_id" : "AVwfVTFfB3_RrgjQvGmE",
+  "_version" : 2,
+  "result" : "updated",
+  "_shards" : {
+    "total" : 2,
+    "successful" : 1,
+    "failed" : 0
+  }
+}
+[xiaohu-liu@cdh1 data-tmp]$ curl -X GET 'http://localhost:9200/twitter/tweet/AVwfVTFfB3_RrgjQvGmE?pretty'
+{
+  "_index" : "twitter",
+  "_type" : "tweet",
+  "_id" : "AVwfVTFfB3_RrgjQvGmE",
+  "_version" : 2,
+  "found" : true,
+  "_source" : {
+    "username" : "xiaohu-liu1",
+    "age" : 10,
+    "hobbies" : [
+      "running"
+    ],
+    "gender" : "male"
+  }
+}
+```
+if both `doc` and `script` are specified, then `doc` is ignored, Best is to put your field pairs of the partial document in the script itself.
+```
+[xiaohu-liu@cdh1 data-tmp]$ curl -X POST 'http://localhost:9200/twitter/tweet/AVwfVTFfB3_RrgjQvGmE/_update?pretty' -d '{"doc":{"gender1":"male"},"script":{"inline":"ctx._source.nickname=\"jspider\""}}'
+{
+  "error" : {
+    "root_cause" : [
+      {
+        "type" : "action_request_validation_exception",
+        "reason" : "Validation Failed: 1: can't provide both script and doc;"
+      }
+    ],
+    "type" : "action_request_validation_exception",
+    "reason" : "Validation Failed: 1: can't provide both script and doc;"
+  },
+  "status" : 400
+}
+```
+
+```
+[xiaohu-liu@cdh1 data-tmp]$ curl -X POST 'http://localhost:9200/twitter/tweet/AVwfVTFfB3_RrgjQvGmE/_update?pretty' -d '{"script":{"inline":"ctx._source.nickname=\"jspider\";ctx._source.birthday=\"1991-05-11\""}}'
+{
+  "_index" : "twitter",
+  "_type" : "tweet",
+  "_id" : "AVwfVTFfB3_RrgjQvGmE",
+  "_version" : 3,
+  "result" : "updated",
+  "_shards" : {
+    "total" : 2,
+    "successful" : 1,
+    "failed" : 0
+  }
+}
+[xiaohu-liu@cdh1 data-tmp]$ curl -X GET 'http://localhost:9200/twitter/tweet/AVwfVTFfB3_RrgjQvGmE?pretty'
+{
+  "_index" : "twitter",
+  "_type" : "tweet",
+  "_id" : "AVwfVTFfB3_RrgjQvGmE",
+  "_version" : 3,
+  "found" : true,
+  "_source" : {
+    "username" : "xiaohu-liu1",
+    "age" : 10,
+    "hobbies" : [
+      "running"
+    ],
+    "gender" : "male",
+    "nickname" : "jspider",
+    "birthday" : "1991-05-11"
+  }
+}
+```
+
+## Detecting noop updates
+update the document with the existing value in `_source`, by defaults updates that don't change anything detect that they don't change anything and return "result":"noop" like this as follows:
+```
+[xiaohu-liu@cdh1 data-tmp]$ curl -X POST 'http://localhost:9200/twitter/tweet/AVwfVTFfB3_RrgjQvGmE/_update?pretty' -d '{"doc":{"nickname":"jspider","birthday":"1991-05-11"}}'
+{
+  "_index" : "twitter",
+  "_type" : "tweet",
+  "_id" : "AVwfVTFfB3_RrgjQvGmE",
+  "_version" : 4,
+  "result" : "noop",
+  "_shards" : {
+    "total" : 0,
+    "successful" : 0,
+    "failed" : 0
+  }
+}
+```
+the update request was ignored, and you can disabled the detect by setting `detect_noop:false` like this:
+```
+[xiaohu-liu@cdh1 data-tmp]$ curl -X POST 'http://localhost:9200/twitter/tweet/AVwfVTFfB3_RrgjQvGmE/_update?pretty' -d '{"doc":{"nickname":"jspider","birthday":"1991-05-11"},"detect_noop":false}'
+{
+  "_index" : "twitter",
+  "_type" : "tweet",
+  "_id" : "AVwfVTFfB3_RrgjQvGmE",
+  "_version" : 5,
+  "result" : "updated",
+  "_shards" : {
+    "total" : 2,
+    "successful" : 1,
+    "failed" : 0
+  }
+}
+```
+as we can see from the response above, the `result` field is `updated` rather than `noop` and the `_version` field has a automatic increment.
+
+
+## Upserts
+if the document does not already exist. the contents of the `upsert` element will be inserted as a new document. if the document does exist, then the `script` will be executed instead.
+```
+[xiaohu-liu@cdh1 data-tmp]$ curl -X POST 'http://localhost:9200/twitter/tweet/10/_update?pretty' -d '{"script":{"inline":"ctx._source.counter+= params.count", "lang":"painless","params":{"count":10}}, "upsert":{"counter":1}}'
+{
+  "_index" : "twitter",
+  "_type" : "tweet",
+  "_id" : "10",
+  "_version" : 1,
+  "result" : "created",
+  "_shards" : {
+    "total" : 2,
+    "successful" : 1,
+    "failed" : 0
+  }
+}
+[xiaohu-liu@cdh1 data-tmp]$ curl -X POST 'http://localhost:9200/twitter/tweet/10/_update?pretty' -d '{"script":{"inline":"ctx._source.counter+= params.count", "lang":"painless","params":{"count":10}}, "upsert":{"counter":1}}'
+{
+  "_index" : "twitter",
+  "_type" : "tweet",
+  "_id" : "10",
+  "_version" : 2,
+  "result" : "updated",
+  "_shards" : {
+    "total" : 2,
+    "successful" : 1,
+    "failed" : 0
+  }
+}
+[xiaohu-liu@cdh1 data-tmp]$ curl -X GET 'http://localhost:9200/twitter/tweet/10?pretty'
+{
+  "_index" : "twitter",
+  "_type" : "tweet",
+  "_id" : "10",
+  "_version" : 2,
+  "found" : true,
+  "_source" : {
+    "counter" : 11
+  }
+}
+```
+the `result` field is `created` in the first response text, and `updated` in the second response
+
+## script_upsert
+if you would like your script to run regardless of whatever the document exists or not- i.e the script handles initializing the document instead of `upsert` element -- then set the `scripted_upsert` to `true`.
+```
+[xiaohu-liu@cdh1 tmp]$ curl -X POST 'http://localhost:9200/twitter/tweet/AVwfVTFfB3_RrgjQvGmE1/_update?pretty' -d '@scripted_upsert.json'
+{
+  "_index" : "twitter",
+  "_type" : "tweet",
+  "_id" : "AVwfVTFfB3_RrgjQvGmE1",
+  "_version" : 1,
+  "result" : "created",
+  "_shards" : {
+    "total" : 2,
+    "successful" : 1,
+    "failed" : 0
+  }
+}
+
+scripted_upsert.json
+{
+    "scripted_upsert":true,
+    "script":{
+        "inline": "ctx._source.pageViewEvent=params.pageViewEvent",
+        "lang":"painless",
+        "params" : {
+            "pageViewEvent" : {
+                "url":"foo.com/bar",
+                "response":404,
+                "time":"2014-01-01 12:32"
+            }
+        }
+    },
+    "upsert" : {}
+}
+```
+## doc_as_upsert
+instead of sending a partial doc plus an `upsert` doc, setting `doc_as_upsert` to `true` will use the content of `doc` as the `upsert` value
+```
+[xiaohu-liu@cdh1 tmp]$ curl -X POST 'http://localhost:9200/twitter/tweet/AVwfVTFfB3_RrgjQvGmE6/_update?pretty' -d '{"doc":{"nickname":"jspider"},"doc_as_upsert":true}'
+{
+  "_index" : "twitter",
+  "_type" : "tweet",
+  "_id" : "AVwfVTFfB3_RrgjQvGmE6",
+  "_version" : 1,
+  "result" : "created",
+  "_shards" : {
+    "total" : 2,
+    "successful" : 1,
+    "failed" : 0
+  }
+}
+[xiaohu-liu@cdh1 tmp]$ curl -X GET 'http://localhost:9200/twitter/tweet/AVwfVTFfB3_RrgjQvGmE6?pretty'
+{
+  "_index" : "twitter",
+  "_type" : "tweet",
+  "_id" : "AVwfVTFfB3_RrgjQvGmE6",
+  "_version" : 1,
+  "found" : true,
+  "_source" : {
+    "nickname" : "jspider"
+  }
+}
+```
 
 
 
