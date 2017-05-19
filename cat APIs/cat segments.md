@@ -49,27 +49,27 @@ twitter 4     p      10.100.0.146 _6               6          1            0 3.6
 twitter 4     p      10.100.0.146 _7               7          1            0 4.4kb        2589 true      true       6.5.0   true
 ```
 the detail meaning of the head listed as follows:
-`prirep`
+* `prirep`
 Whether this segment belongs to a primary or replica shard.
-`ip`
+* `ip`
 The ip address of the segment’s shard.
-`segment`
+* `segment`
 A segment name, derived from the segment generation. The name is internally used to generate the file names in the directory of the shard this segment belongs to.
-`generation`
+* `generation`
 The generation number is incremented with each segment that is written. The name of the segment is derived from this generation number.
-`docs.count`
+* `docs.count`
 The number of non-deleted documents that are stored in this segment. Note that these are Lucene documents, so the count will include hidden documents (e.g. from nested types).
-`docs.deleted`
+* `docs.deleted`
 The number of deleted documents that are stored in this segment. It is perfectly fine if this number is greater than 0, space is going to be reclaimed when this segment gets merged.
-`size`
+* `size`
 The amount of disk space that this segment uses.
-`size.memory`
+* `size.memory`
 Segments store some data into memory in order to be searchable efficiently. This column shows the number of bytes in memory that are used.
-`committed`
+* `committed`
 Whether the segment has been sync’ed on disk. Segments that are committed would survive a hard reboot. No need to worry in case of false, the data from uncommitted segments is also stored in the transaction log so that Elasticsearch is able to replay changes on the next start.
-`searchable`
+* `searchable`
 True if the segment is searchable. A value of false would most likely mean that the segment has been written to disk but no refresh occurred since then to make it searchable.
-`version`
+* `version`
 The version of Lucene that has been used to write this segment.
-`compound`
+* `compound`
 Whether the segment is stored in a compound file. When true, this means that Lucene merged all files from the segment in a single one in order to save file descriptors.
