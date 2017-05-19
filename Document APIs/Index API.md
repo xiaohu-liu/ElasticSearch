@@ -187,7 +187,7 @@ To improve the resiliency of writes to the system. indexing operations can be co
 
 It is important to note that this setting greatly reduces the changes of the write operation not writing to the requisite number of shard copies, but it dose not compeletly eliminate the possibility, since the check occurs before the write operation commences.
 
-## Refresg
+## Refresh
 Control when the changes made by this request are visible to search.
 
 ## Noop updates
