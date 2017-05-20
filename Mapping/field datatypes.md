@@ -42,4 +42,115 @@ PUT es-index/es-type/1
   "blob": "U29tZSBiaW5hcnkgYmxvYg==" 
 }
 ```
+## Range DataTypes
+The following range types are supported:
+* integer range (32bit)
+* float range(32 bit)
+* long range(64 bit)
+* double range(64 bit)
+* date_range (unsigned 64-bit integer milliseconds)
+
+for example as follows:
+```
+@range_type_data.json
+{
+  "expected_attendees" : { 
+    "gte" : 10,
+    "lte" : 20
+  },
+  "time_frame" : { 
+    "gte" : "2015-10-31 12:00:00", 
+    "lte" : "2015-11-01"
+  }
+}
+
+@range_type.json
+{
+  "mappings": {
+    "my_type": {
+      "properties": {
+        "expected_attendees": {
+          "type": "integer_range"
+        },
+        "time_frame": {
+          "type": "date_range", 
+          "format": "yyyy-MM-dd HH:mm:ss||yyyy-MM-dd||epoch_millis"
+        }
+      }
+    }
+  }
+}
+
+create the index named `es-index3`
+[xiaohu-liu@cdh1 json]$ curl -X PUT 'http://localhost:9200/es-index3?pretty' -d "@range_type.json"
+{
+  "acknowledged" : true,
+  "shards_acknowledged" : true
+}
+
+@range_type_query.json
+{
+  "query" : {
+    "range" : {
+      "time_frame" : { 
+        "gte" : "2015-10-31",
+        "lte" : "2015-11-01",
+        "relation" : "within" 
+      }
+    }
+  }
+}
+
+
+index the document given:
+[xiaohu-liu@cdh1 json]$ curl -X PUT 'http://localhost:9200/es-index3/my_type/1?pretty' -d "@range_type_data.json"
+{
+  "_index" : "es-index3",
+  "_type" : "my_type",
+  "_id" : "1",
+  "_version" : 1,
+  "result" : "created",
+  "_shards" : {
+    "total" : 2,
+    "successful" : 1,
+    "failed" : 0
+  },
+  "created" : true
+}
+
+search the target document:
+$ curl -X POST 'http://localhost:9200/es-index3/_search?pretty' -d "@range_type_query.json"
+{
+  "took" : 3,
+  "timed_out" : false,
+  "_shards" : {
+    "total" : 5,
+    "successful" : 5,
+    "failed" : 0
+  },
+  "hits" : {
+    "total" : 1,
+    "max_score" : 1.0,
+    "hits" : [
+      {
+        "_index" : "es-index3",
+        "_type" : "my_type",
+        "_id" : "1",
+        "_score" : 1.0,
+        "_source" : {
+          "expected_attendees" : {
+            "gte" : 10,
+            "lte" : 20
+          },
+          "time_frame" : {
+            "gte" : "2015-10-31 12:00:00",
+            "lte" : "2015-11-01"
+          }
+        }
+      }
+    ]
+  }
+}
+
+```
 
