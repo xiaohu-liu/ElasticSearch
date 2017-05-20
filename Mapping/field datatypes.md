@@ -9,3 +9,6 @@ an array of integers: [ 1, 2 ]
 an array of arrays: [ 1, [ 2, 3 ]] which is the equivalent of [ 1, 2, 3 ]
 an array of objects: [ { "name": "Mary", "age": 12 }, { "name": "John", "age": 10 }]
 ```
+<strong>Note: </strong>
+* the first value in the array determines the field type when adding a field dynamically
+* all subsequent values must be of the same datatype or it must at least be possible to coerce subsequent values to the same datatype
