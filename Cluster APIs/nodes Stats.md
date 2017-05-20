@@ -366,6 +366,40 @@ Supported metrics are as follows:
 * translog
 * warmer
 
-
+## Ingest statistics
+```
+[root@cdh1 ~]# curl -XGET 'http://localhost:9200/_nodes/stats/ingest?pretty'
+{
+  "_nodes" : {
+    "total" : 1,
+    "successful" : 1,
+    "failed" : 0
+  },
+  "cluster_name" : "xiaohu-liu",
+  "nodes" : {
+    "-foTUedtRtuy95CQ0UoLwA" : {
+      "timestamp" : 1495239447918,
+      "name" : "cdh1",
+      "transport_address" : "192.168.1.39:9300",
+      "host" : "192.168.1.39",
+      "ip" : "192.168.1.39:9300",
+      "roles" : [
+        "master",
+        "data",
+        "ingest"
+      ],
+      "ingest" : {
+        "total" : {
+          "count" : 0,
+          "time_in_millis" : 0,
+          "current" : 0,
+          "failed" : 0
+        },
+        "pipelines" : { }
+      }
+    }
+  }
+}
+```
 
 
