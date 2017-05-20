@@ -44,7 +44,4 @@ curl -XGET 'http://localhost:9200/_nodes/stats/os,process'
 # return just process for node with IP address 10.0.0.1
 curl -XGET 'http://localhost:9200/_nodes/10.0.0.1/stats/process'
 ```
-
-
-
-
+<strong>Note: </strong> All stats can be explicitly requested via `/_nodes/stats/_all` or `/_nodes/stats?metric=_all`
