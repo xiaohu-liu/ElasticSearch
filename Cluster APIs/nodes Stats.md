@@ -10,9 +10,9 @@ curl -XGET 'http://localhost:9200/_nodes/nodeId1,nodeId2/stats'
 ```
 the first command retrieves stats of all nodes in the cluster, however the second command selectively retrieves stats of nodeId1 and nodeId2.
 
-you can control the result returned by specifying the metric item.
+you can control the result returned by specifying the metric.
 
-optional metric items:
+optional metrics:
 * `indices`
    * Indices stats about size, document count, indexing and deletion times, search times, field cache size, merges and flushes
 * `fs`
