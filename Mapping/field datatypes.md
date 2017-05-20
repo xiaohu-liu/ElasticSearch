@@ -14,4 +14,4 @@ an array of objects: [ { "name": "Mary", "age": 12 }, { "name": "John", "age": 1
 * all subsequent values must be of the same datatype or it must at least be possible to coerce subsequent values to the same datatype
 * an array can contains null value
 * an empty array [] is treated as a missing field — a field with no values
-* it's not necessary to pre-configure in the document to use array, it's out of the box.
+* it's not necessary to pre-configure in the document to use array, as it's out of the box.
