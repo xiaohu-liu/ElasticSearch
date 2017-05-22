@@ -160,4 +160,16 @@ Boolean fields accept JSON true and false values, but can also accept strings an
 * False values  false, "false", "off", "no", "0", "" (empty string), 0, 0.0
 * Anything that isn’t false.
 
+## Date DataType
+JSON doesn’t have a date datatype, so dates in Elasticsearch can either be:
+* strings containing formatted dates, e.g. "2015-01-01" or "2015/01/01 12:10:30".
+* a long number representing milliseconds-since-the-epoch.
+* an integer representing seconds-since-the-epoch.
 
+Internally, dates are converted to UTC (if the time-zone is specified) and stored as a long number representing milliseconds-since-the-epoch.
+
+Date formats can be customised, but if no format is specified then it uses the default:
+```
+"strict_date_optional_time||epoch_millis"
+```
+This means that it will accept dates with optional timestamps, which conform to the formats supported by strict_date_optional_time or milliseconds-since-the-epoch.
