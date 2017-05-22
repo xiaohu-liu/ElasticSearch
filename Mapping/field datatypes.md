@@ -173,3 +173,23 @@ Date formats can be customised, but if no format is specified then it uses the d
 "strict_date_optional_time||epoch_millis"
 ```
 This means that it will accept dates with optional timestamps, which conform to the formats supported by strict_date_optional_time or milliseconds-since-the-epoch.
+
+
+Multiple formats can be specified by separating them with || as a separator. Each format will be tried in turn until a matching format is found. The first format will be used to convert the milliseconds-since-the-epoch value back into a string.
+
+for example here:
+```
+PUT my_index
+{
+  "mappings": {
+    "my_type": {
+      "properties": {
+        "date": {
+          "type":   "date",
+          "format": "yyyy-MM-dd HH:mm:ss||yyyy-MM-dd||epoch_millis"
+        }
+      }
+    }
+  }
+}
+```
