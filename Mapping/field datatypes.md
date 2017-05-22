@@ -153,4 +153,11 @@ $ curl -X POST 'http://localhost:9200/es-index3/_search?pretty' -d "@range_type_
 }
 
 ```
+## Boolean DataType
+
+Boolean fields accept JSON true and false values, but can also accept strings and numbers which are interpreted as either true or false:
+
+* False values  false, "false", "off", "no", "0", "" (empty string), 0, 0.0
+* Anything that isn’t false.
+
 
